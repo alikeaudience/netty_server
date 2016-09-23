@@ -50,6 +50,25 @@ A lightweight server using netty that can accommodate around 20,000 request/s on
 
 2. Only one instance of Producer is instantiated, in order to improve the performance.
 
+3. As we are going to directly invoke the Java API provided by Kafka, the following changes must be made to the *server.properties* config file. The addresses must be provided, if we want to use the Java APIs.
+
+```
+############################# Socket Server Settings ##########################$
+
+# The address the socket server listens on. It will get the value returned from
+# java.net.InetAddress.getCanonicalHostName() if not configured.
+#   FORMAT:
+#     listeners = security_protocol://host_name:port
+#   EXAMPLE:
+#     listeners = PLAINTEXT://your.host.name:9092
+listeners=PLAINTEXT://192.168.1.22:9092
+
+# Hostname and port the broker will advertise to producers and consumers. If no$
+# it uses the value for "listeners" if configured.  Otherwise, it will use the $
+# returned from java.net.InetAddress.getCanonicalHostName().
+advertised.listeners=PLAINTEXT://192.168.1.22:9092
+```
+
 ## Recommended IDE and test software
 - IntelliJ IDEA
 
