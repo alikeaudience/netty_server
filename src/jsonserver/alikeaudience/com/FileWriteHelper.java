@@ -6,6 +6,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -33,9 +34,9 @@ public final class FileWriteHelper {
 
 
     private FileWriteHelper() {
-
+        String fileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
         try {
-            fw = new FileWriter(FILE_A_NAME, true);
+            fw = new FileWriter(fileName, true);
             bw = new BufferedWriter(fw);
             out = new PrintWriter(bw);
 //            System.out.println(fileIndicator);
@@ -122,6 +123,23 @@ public final class FileWriteHelper {
 
 //        System.out.println(new Date().toString() + " " + fileIndicator);
 
+    }
+
+    public void writeToNewFile() {
+        //no need to write to new file  after the first call of writeToNewFile that creates the first instance
+        if(fileIndicator == 0) {
+            fileIndicator = SAVE_TO_FILE_A;
+            return;
+        }
+
+        String fileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+        try {
+            fw = new FileWriter(fileName, true);
+            bw = new BufferedWriter(fw);
+            out = new PrintWriter(bw);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
 

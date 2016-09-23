@@ -24,7 +24,7 @@ public final class HttpJsonServer {
     static final boolean SSL = System.getProperty("ssl") != null;
     static final int PORT = Integer.parseInt(System.getProperty("port", SSL? "8443" : "8080"));
 
-    private static final int SWAP_INTERVAL_IN_MINUTES = 60; //default: 60 minutes for saving file swap interval
+    private static final int SWAP_INTERVAL_IN_MINUTES = 5; //default: 60 minutes for saving file swap interval
 
 
 
@@ -38,7 +38,7 @@ public final class HttpJsonServer {
 
         final Runnable fileNameSwap = new Runnable() {
             public void run() {
-                FileWriteHelper.getInstance().swap();
+                FileWriteHelper.getInstance().writeToNewFile();
             }
         };
 
