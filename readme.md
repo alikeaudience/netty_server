@@ -45,7 +45,9 @@ A lightweight server using netty that can accommodate around 20,000 request/s on
 
 4. Writing to files is async, thus imposing little effect on the server's request serving performance.
 
-5. Note that which method to schedule (swap or writeToNewFile) is now hard coded. 
+### Notes
+
+Which method to schedule (swap or writeToNewFile) is now hard coded. 
 
 ## Sending request data of Kafka servers
 1. The producer API documentation is found here. https://kafka.apache.org/0100/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html
@@ -70,7 +72,10 @@ listeners=PLAINTEXT://192.168.1.22:9092
 # returned from java.net.InetAddress.getCanonicalHostName().
 advertised.listeners=PLAINTEXT://192.168.1.22:9092
 ```
-4. Note that for now, the Kafka's addresses are hard coded. May need to provide configs for the program to read from.
+
+### Notes
+
+For now, the Kafka's addresses are hard coded. May need to provide configs for the program to read from.
 
 ## Recommended IDE and test software
 - IntelliJ IDEA
