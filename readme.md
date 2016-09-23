@@ -70,7 +70,6 @@ listeners=PLAINTEXT://192.168.1.22:9092
 # returned from java.net.InetAddress.getCanonicalHostName().
 advertised.listeners=PLAINTEXT://192.168.1.22:9092
 ```
-
 4. Note that for now, the Kafka's addresses are hard coded. May need to provide configs for the program to read from.
 
 ## Recommended IDE and test software
