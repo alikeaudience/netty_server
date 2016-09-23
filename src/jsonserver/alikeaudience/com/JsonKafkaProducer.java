@@ -18,7 +18,7 @@ public final class JsonKafkaProducer {
 
     private JsonKafkaProducer() {
         props = new Properties();
-        props.put("bootstrap.servers", "192.168.1.22:9092");
+        props.put("bootstrap.servers", "192.168.1.22:9092"); //the addresses of the kafka brokers
         props.put("acks", "all");
         props.put("retries", 0);
         props.put("batch.size", 16384);

@@ -88,8 +88,12 @@ public class HttpJsonServerHandler extends ChannelInboundHandlerAdapter {
 
             try {
                 while (buf.isReadable()) {
+                    //Saving data to local files
                     FileWriteHelper.getInstance().writeToFile(buf.toString(CharsetUtil.UTF_8));
+
+                    //Sending data to Kafka server
 //                    JsonKafkaProducer.getInstance().sendToKafka(buf.toString(CharsetUtil.UTF_8));
+
                     break;
                 }
 //                if(buf.isReadable()) FileWriteHelper.getInstance().writeToFile(buf.toString(CharsetUtil.UTF_8));
