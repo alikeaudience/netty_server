@@ -21,38 +21,36 @@ public final class FileWriteHelper {
     private static final int SAVE_TO_FILE_A = 1;
     private static final int SAVE_TO_FILE_B = 2;
 
+    private static final String LOG_DIRECTORY = "netty_logs";
+
+    private File logDir;
+
     private static volatile int fileIndicator = 0;
 
     private FileWriter fw;
     private BufferedWriter bw;
     private PrintWriter out;
 
-    private StringBuffer stringBuffer;
+//    private StringBuffer stringBuffer;
 
 
     private FileWriteHelper() {
-        File theDir = new File("netty_logs");
+        File rootDir = new File("srv");
 
-        // if the directory does not exist, create it
-        if (!theDir.exists()) {
-            System.out.println("creating directory: netty_logs" );
-            boolean result = false;
+        checkDirExist(rootDir);
 
-            try{
-                theDir.mkdir();
-                result = true;
-            }
-            catch(SecurityException se){
-                //handle it
-            }
-            if(result) {
-                System.out.println("DIR created");
-            }
-        }
+        logDir = new File(rootDir.getAbsolutePath() + File.separator + LOG_DIRECTORY);
+
+        checkDirExist(logDir);
 
         String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
+        File secondDir = new File(logDir.getAbsolutePath() + File.separator + fileName.substring(0, 8));
+
+        checkDirExist(secondDir);
+
         try {
-            fw = new FileWriter("netty_logs/"+fileName, true);
+            fw = new FileWriter(secondDir.getAbsolutePath() + File.separator + fileName.substring(8), true);
             bw = new BufferedWriter(fw);
             out = new PrintWriter(bw);
 //            System.out.println(fileIndicator);
@@ -61,7 +59,7 @@ public final class FileWriteHelper {
             e.printStackTrace();
         }
 
-        stringBuffer = new StringBuffer();
+//        stringBuffer = new StringBuffer();
 
 
 
@@ -97,6 +95,10 @@ public final class FileWriteHelper {
 //        stringBuffer.append(data);
 
 //        System.out.println("write data");
+
+
+        JsonKafkaProducer.getInstance().sendToKafka(data);
+
     }
 
     public void writeNewLine() {
@@ -107,8 +109,8 @@ public final class FileWriteHelper {
             e.printStackTrace();
         }
 
-        JsonKafkaProducer.getInstance().sendToKafka(stringBuffer.toString());
-        stringBuffer = new StringBuffer();
+//        JsonKafkaProducer.getInstance().sendToKafka(stringBuffer.toString());
+//        stringBuffer = new StringBuffer();
 
 //        System.out.println("write new line");
     }
@@ -174,13 +176,39 @@ public final class FileWriteHelper {
             return;
         }
 
+
         String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+
+        File secondDir = new File(logDir.getAbsolutePath() + File.separator + fileName.substring(0, 8));
+
+        checkDirExist(secondDir);
+
         try {
-            fw = new FileWriter("netty_logs/"+fileName, true);
+            fw = new FileWriter(secondDir.getAbsolutePath() + File.separator + fileName.substring(8), true);
             bw = new BufferedWriter(fw);
             out = new PrintWriter(bw);
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+
+    private void checkDirExist(File theDir) {
+        // if the directory does not exist, create it
+        if (!theDir.exists()) {
+            System.out.println("creating directory: " + theDir.getName() );
+            boolean result = false;
+
+            try{
+                theDir.mkdir();
+                result = true;
+            }
+            catch(SecurityException se){
+                //handle it
+            }
+            if(result) {
+                System.out.println("DIR created");
+            }
         }
     }
 

@@ -61,7 +61,7 @@ public final class JsonKafkaProducer {
     }
 
     public void sendToKafka(String jsonData) {
-        ProducerRecord<String, String> record = new ProducerRecord<String, String>("test3", "sdk", jsonData);
+        ProducerRecord<String, String> record = new ProducerRecord<String, String>("test4", "sdk", jsonData);
         producer.send(record,
                 new Callback() {
                     @Override

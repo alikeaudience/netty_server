@@ -24,7 +24,7 @@ public final class HttpJsonServer {
     private static final boolean SSL = System.getProperty("ssl") != null;
     private static final int PORT = Integer.parseInt(System.getProperty("port", SSL? "8443" : "8080"));
 
-    private static final int SWAP_INTERVAL_IN_MINUTES = 10; //default: 60 minutes for saving file swap interval
+    private static final int SWAP_INTERVAL_IN_MINUTES = 5; //default: 5 minutes for saving file swap interval
 
     static String kafkaConfigFile;
 
