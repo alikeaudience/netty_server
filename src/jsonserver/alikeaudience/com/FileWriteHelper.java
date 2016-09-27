@@ -1,11 +1,9 @@
 package jsonserver.alikeaudience.com;
 
 import io.netty.util.CharsetUtil;
+import kafka.utils.Json;
 
-import java.io.BufferedWriter;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
+import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -29,14 +27,32 @@ public final class FileWriteHelper {
     private BufferedWriter bw;
     private PrintWriter out;
 
-    private int count;
-
+    private StringBuffer stringBuffer;
 
 
     private FileWriteHelper() {
-        String fileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+        File theDir = new File("netty_logs");
+
+        // if the directory does not exist, create it
+        if (!theDir.exists()) {
+            System.out.println("creating directory: netty_logs" );
+            boolean result = false;
+
+            try{
+                theDir.mkdir();
+                result = true;
+            }
+            catch(SecurityException se){
+                //handle it
+            }
+            if(result) {
+                System.out.println("DIR created");
+            }
+        }
+
+        String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         try {
-            fw = new FileWriter(fileName, true);
+            fw = new FileWriter("netty_logs/"+fileName, true);
             bw = new BufferedWriter(fw);
             out = new PrintWriter(bw);
 //            System.out.println(fileIndicator);
@@ -44,6 +60,8 @@ public final class FileWriteHelper {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        stringBuffer = new StringBuffer();
 
 
 
@@ -68,7 +86,31 @@ public final class FileWriteHelper {
     public void writeToFile(String data) {
         out.println(data);
         out.flush();
+//        try {
+//            bw.write(data);
+//            bw.newLine();
+//            bw.flush();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
 
+//        stringBuffer.append(data);
+
+//        System.out.println("write data");
+    }
+
+    public void writeNewLine() {
+        try {
+            bw.newLine();
+            bw.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        JsonKafkaProducer.getInstance().sendToKafka(stringBuffer.toString());
+        stringBuffer = new StringBuffer();
+
+//        System.out.println("write new line");
     }
 
     public void closeAll() {
@@ -132,9 +174,9 @@ public final class FileWriteHelper {
             return;
         }
 
-        String fileName = new SimpleDateFormat("yyyyMMddhhmmss").format(new Date());
+        String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         try {
-            fw = new FileWriter(fileName, true);
+            fw = new FileWriter("netty_logs/"+fileName, true);
             bw = new BufferedWriter(fw);
             out = new PrintWriter(bw);
         } catch (IOException e) {

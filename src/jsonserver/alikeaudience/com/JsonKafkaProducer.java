@@ -4,6 +4,9 @@ package jsonserver.alikeaudience.com;
 import io.netty.util.concurrent.Future;
 import org.apache.kafka.clients.producer.*;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.Properties;
 
 /**
@@ -17,15 +20,26 @@ public final class JsonKafkaProducer {
     private Producer<String, String> producer;
 
     private JsonKafkaProducer() {
-        props = new Properties();
-        props.put("bootstrap.servers", "192.168.1.22:9092"); //the addresses of the kafka brokers
-        props.put("acks", "all");
-        props.put("retries", 0);
-        props.put("batch.size", 16384);
-        props.put("linger.ms", 1);
-        props.put("buffer.memory", 33554432);
-        props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
-        props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+
+        if(HttpJsonServer.kafkaConfigFile != null) {
+            try {
+                props.load(new FileInputStream(HttpJsonServer.kafkaConfigFile));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        } else {
+            props = new Properties();
+            props.put("bootstrap.servers", "192.168.1.22:9092"); //the addresses of the kafka brokers
+            props.put("acks", "all");
+            props.put("retries", 0);
+            props.put("batch.size", 16384);
+            props.put("linger.ms", 1);
+            props.put("buffer.memory", 33554432);
+            props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+            props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        }
+
+
 
         producer = new KafkaProducer<>(props);
     }
@@ -47,7 +61,7 @@ public final class JsonKafkaProducer {
     }
 
     public void sendToKafka(String jsonData) {
-        ProducerRecord<String, String> record = new ProducerRecord<String, String>("test1", "sdk", jsonData);
+        ProducerRecord<String, String> record = new ProducerRecord<String, String>("test3", "sdk", jsonData);
         producer.send(record,
                 new Callback() {
                     @Override
