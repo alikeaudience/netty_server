@@ -7,6 +7,7 @@ import org.apache.kafka.clients.producer.*;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -16,19 +17,25 @@ public final class JsonKafkaProducer {
 
     private static volatile JsonKafkaProducer instance;
 
-    private Properties props;
+    private final Properties props;
     private Producer<String, String> producer;
 
+    private final String topicName;
+    private final String topicKey;
+
     private JsonKafkaProducer() {
+        props = new Properties();
 
         if(HttpJsonServer.kafkaConfigFile != null) {
+
             try {
                 props.load(new FileInputStream(HttpJsonServer.kafkaConfigFile));
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
         } else {
-            props = new Properties();
             props.put("bootstrap.servers", "192.168.1.22:9092"); //the addresses of the kafka brokers
             props.put("acks", "all");
             props.put("retries", 0);
@@ -39,7 +46,18 @@ public final class JsonKafkaProducer {
             props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
         }
 
+        System.out.println("Instantiate a new instance of Kafka producer class with the following settings: ");
+        System.out.println(" - The Kafka producer properties file is " + props);
 
+        if(HttpJsonServer.topicName != null) topicName = HttpJsonServer.topicName;
+        else topicName = "test";
+
+        System.out.println(" - The topic name is " + topicName);
+
+        if(HttpJsonServer.topicKey != null) topicKey = HttpJsonServer.topicKey;
+        else topicKey = "test";
+
+        System.out.println(" - The topic key is " + topicKey);
 
         producer = new KafkaProducer<>(props);
     }
