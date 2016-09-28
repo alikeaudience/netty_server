@@ -36,7 +36,7 @@ A lightweight server using netty that can accommodate around 20,000 request/s on
 
 - JsonKafkaProducer
 
-## Saving request data to local files
+### Saving request data to local files
 1. A scheduler is started as the Netty server starts, which schedules the swap (or write to new files) of saving file names every interval of time
 
 2. Only one instance of FileWriter is instantiated, in order to improve the performance.
@@ -45,11 +45,11 @@ A lightweight server using netty that can accommodate around 20,000 request/s on
 
 4. Writing to files is async, thus imposing little effect on the server's request serving performance.
 
-### Notes
+#### Notes
 
 Which method to schedule (swap or writeToNewFile) is now hard coded. For now, writetoNewFile is used.
 
-## Sending request data of Kafka servers
+### Sending request data of Kafka servers
 1. The producer API documentation is found here. https://kafka.apache.org/0100/javadoc/index.html?org/apache/kafka/clients/producer/KafkaProducer.html
 
 2. Only one instance of Producer is instantiated, in order to improve the performance.
@@ -73,7 +73,7 @@ Which method to schedule (swap or writeToNewFile) is now hard coded. For now, wr
 	advertised.listeners=PLAINTEXT://192.168.1.22:9092
 	```
 
-### Notes
+#### Notes
 
 Note, now it supports to import a custom Kafka producer properties file from the arguments.
 
