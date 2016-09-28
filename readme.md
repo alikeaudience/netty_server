@@ -92,11 +92,11 @@ Note, now it supports to import a custom Kafka producer properties file from the
 	autostart:true
 	autorestart:true
 	```
-	1st argument: file swap interval in minutes
-	2nd argument: Kafka producer properties file path
-	3rd argument: Kafka topic name
-	4th argument: Kafka topic key
-	In the example config file, the netty program will set the file swap interval to 5 minutes, load the Kakfa producer properties file in the specifed path, set the Kafka topic to test4, and finally set the Kafka topic key to sdk.
+	- 1st argument: file swap interval in minutes
+	- 2nd argument: Kafka producer properties file path
+	- 3rd argument: Kafka topic name
+	- 4th argument: Kafka topic key
+	- In the example config file, the netty program will set the file swap interval to 5 minutes, load the Kakfa producer properties file in the specifed path, set the Kafka topic to test4, and finally set the Kafka topic key to sdk.
 
 - start supervisor and load conf
   - `sudo service supervisor restart`
