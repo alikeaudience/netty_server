@@ -97,7 +97,7 @@ public final class FileWriteHelper {
 //        System.out.println("write data");
 
 
-        JsonKafkaProducer.getInstance().sendToKafka(data);
+
 
     }
 

@@ -78,8 +78,11 @@ public final class JsonKafkaProducer {
         return instance;
     }
 
-    public void sendToKafka(String jsonData) {
-        ProducerRecord<String, String> record = new ProducerRecord<String, String>(topicName, topicKey, jsonData);
+    public void sendToKafka(String jsonData, String topic) {
+        ProducerRecord<String, String> record;
+        if (topic == null)  record = new ProducerRecord<>(topicName, topicKey, jsonData);
+        else record = new ProducerRecord<>(topic, topicKey, jsonData);
+
         producer.send(record,
                 new Callback() {
                     @Override

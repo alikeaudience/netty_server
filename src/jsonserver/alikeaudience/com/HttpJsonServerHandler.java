@@ -35,8 +35,14 @@ public class HttpJsonServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) {
 //        System.out.println(msg);
+
+        String uri = null;
+
         if (msg instanceof HttpRequest) {
             HttpRequest req = (HttpRequest) msg;
+
+            uri = req.uri();
+
 
 
             if (HttpHeaders.is100ContinueExpected(req)) {
@@ -65,28 +71,13 @@ public class HttpJsonServerHandler extends ChannelInboundHandlerAdapter {
 
         if (msg instanceof HttpContent) {
 
+
             HttpContent httpContent = (HttpContent)msg;
             ByteBuf buf = httpContent.content();
 
 
 
-//            try(FileWriter fw = new FileWriter("outfilename", true);
-//                BufferedWriter bw = new BufferedWriter(fw))
-//            {
-//                while (buf.isReadable()){
-////                    out.println(buf.toString(CharsetUtil.UTF_8));
-//                    bw.write(buf.toString(CharsetUtil.UTF_8));
-//                    bw.newLine();
-//                    break;
-//                }
-//
-//                bw.close();
-//
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            System.out.println(buf.capacity());
+
             try {
 
 
@@ -94,22 +85,15 @@ public class HttpJsonServerHandler extends ChannelInboundHandlerAdapter {
 //                System.out.println(buf.isReadable());
 //                    System.out.println(buf.toString(CharsetUtil.UTF_8));
                     //Saving data to local files
-                    FileWriteHelper.getInstance().writeToFile(buf.toString(CharsetUtil.UTF_8));
-
-
-
-
+                    String bufData = buf.toString(CharsetUtil.UTF_8);
+                    FileWriteHelper.getInstance().writeToFile(bufData);
+                    if(uri != null) JsonKafkaProducer.getInstance().sendToKafka(bufData, uri.substring(1));
+                    else JsonKafkaProducer.getInstance().sendToKafka(bufData, null);
                     break;
                 }
 
-
-
                 //Sending data to Kafka server
 //                JsonKafkaProducer.getInstance().sendToKafka(buf.toString(CharsetUtil.UTF_8));
-
-
-//                if(buf.isReadable()) FileWriteHelper.getInstance().writeToFile(buf.toString(CharsetUtil.UTF_8));
-
 
             } finally {
 //                System.out.println(buf.capacity()+" finish");
@@ -120,17 +104,6 @@ public class HttpJsonServerHandler extends ChannelInboundHandlerAdapter {
 //
 //                }
             }
-
-
-
-//            while (buf.isReadable()){
-//                FileWriteHelper.getInstance().writeToFile(buf.toString(CharsetUtil.UTF_8));
-//                break;
-//            }
-//
-//            buf.release();
-
-
 
 
         }
