@@ -36,7 +36,7 @@ public final class JsonKafkaProducer {
 
 
         } else {
-            props.put("bootstrap.servers", "192.168.1.22:9092"); //the addresses of the kafka brokers
+            props.put("bootstrap.servers", "192.168.1.23:9092"); //the addresses of the kafka brokers
             props.put("acks", "all");
             props.put("retries", 0);
             props.put("batch.size", 16384);
@@ -79,7 +79,7 @@ public final class JsonKafkaProducer {
     }
 
     public void sendToKafka(String jsonData) {
-        ProducerRecord<String, String> record = new ProducerRecord<String, String>("test4", "sdk", jsonData);
+        ProducerRecord<String, String> record = new ProducerRecord<String, String>(topicName, topicKey, jsonData);
         producer.send(record,
                 new Callback() {
                     @Override
