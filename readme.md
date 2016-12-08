@@ -11,7 +11,7 @@ A lightweight server using netty that can accommodate around 20,000 request/s on
 - The entire libs directory should be imported as external libraries.
 
 ### Netty APIs
-- Download: https://netty.io/downloads.html
+- Download: https://dl.bintray.com/netty/downloads/:netty-4.1.5.Final.tar.bz2
 
 - Version: netty-4.1.5.Final
 
