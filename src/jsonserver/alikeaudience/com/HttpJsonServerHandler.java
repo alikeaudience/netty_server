@@ -2,23 +2,18 @@ package jsonserver.alikeaudience.com;
 
 
 import io.netty.buffer.ByteBuf;
-import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.handler.codec.http.*;
-import io.netty.handler.codec.http.multipart.AbstractDiskHttpData;
-import io.netty.handler.codec.http.multipart.DiskFileUpload;
 import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 
-
-import java.io.*;
-
 import static io.netty.handler.codec.http.HttpHeaders.Names.*;
 import static io.netty.handler.codec.http.HttpHeaders.Values;
-import static io.netty.handler.codec.http.HttpResponseStatus.*;
-import static io.netty.handler.codec.http.HttpVersion.*;
+import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
+import static io.netty.handler.codec.http.HttpResponseStatus.OK;
+import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
 /**
  * Created by AlikeAudience on 22/9/2016.
@@ -86,7 +81,7 @@ public class HttpJsonServerHandler extends ChannelInboundHandlerAdapter {
 //                    System.out.println(buf.toString(CharsetUtil.UTF_8));
                     //Saving data to local files
                     String bufData = buf.toString(CharsetUtil.UTF_8);
-                    FileWriteHelper.getInstance().writeToFile(bufData);
+//                    FileWriteHelper.getInstance().writeToFile(bufData);
                     if(uri != null) JsonKafkaProducer.getInstance().sendToKafka(bufData, uri.substring(1));
                     else JsonKafkaProducer.getInstance().sendToKafka(bufData, null);
                     break;

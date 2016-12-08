@@ -15,7 +15,6 @@ import io.netty.handler.ssl.util.SelfSignedCertificate;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Created by AlikeAudience on 22/9/2016.
@@ -64,20 +63,20 @@ public final class HttpJsonServer {
 
         final ScheduledFuture<?> fileNameSwapHandler;
 
-        final Runnable fileNameSwap = new Runnable() {
-            public void run() {
-                FileWriteHelper.getInstance().writeToNewFile();
-            }
-        };
-
-        fileNameSwapHandler = scheduler.scheduleAtFixedRate(fileNameSwap, SWAP_INTERVAL_IN_MINUTES, SWAP_INTERVAL_IN_MINUTES, TimeUnit.MINUTES);
+//        final Runnable fileNameSwap = new Runnable() {
+//            public void run() {
+//                FileWriteHelper.getInstance().writeToNewFile();
+//            }
+//        };
+//
+//        fileNameSwapHandler = scheduler.scheduleAtFixedRate(fileNameSwap, SWAP_INTERVAL_IN_MINUTES, SWAP_INTERVAL_IN_MINUTES, TimeUnit.MINUTES);
 
 
 
 
 
         //Instantiate filewrite and kafkaproducer here to further reduce initialization delay
-        FileWriteHelper.getInstance();
+//        FileWriteHelper.getInstance();
         JsonKafkaProducer.getInstance();
 
         if (SSL) {
@@ -111,9 +110,9 @@ public final class HttpJsonServer {
             bossGroup.shutdownGracefully();
             workerGroup.shutdownGracefully();
 
-            scheduler.schedule(new Runnable() {
-                public void run() { fileNameSwapHandler.cancel(true); System.out.println("close");}
-            }, 0,  TimeUnit.SECONDS);
+//            scheduler.schedule(new Runnable() {
+//                public void run() { fileNameSwapHandler.cancel(true); System.out.println("close");}
+//            }, 0,  TimeUnit.SECONDS);
         }
     }
 }
