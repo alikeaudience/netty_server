@@ -9,6 +9,10 @@ import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
 import static io.netty.handler.codec.http.HttpHeaders.Names.*;
 import static io.netty.handler.codec.http.HttpHeaders.Values;
 import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
@@ -21,6 +25,9 @@ import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 public class HttpJsonServerHandler extends ChannelInboundHandlerAdapter {
     private static final byte[] CONTENT = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd' };
 
+    private static final Set<String> VALUES = new HashSet<String>(Arrays.asList(
+            new String[] {"iap","installapps","keyasso","list", "mobiledata", "survey", "weblog", "testpipeline"}
+    ));
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) {
@@ -82,8 +89,18 @@ public class HttpJsonServerHandler extends ChannelInboundHandlerAdapter {
                     //Saving data to local files
                     String bufData = buf.toString(CharsetUtil.UTF_8);
 //                    FileWriteHelper.getInstance().writeToFile(bufData);
-                    if(uri != null) JsonKafkaProducer.getInstance().sendToKafka(bufData, uri.substring(1));
-                    else JsonKafkaProducer.getInstance().sendToKafka(bufData, null);
+                    if(uri != null) {
+                        String topicName = uri.substring(1);
+//                        System.out.println(topicName);
+                        if (VALUES.contains(topicName)){
+//                            System.out.println("yes");
+                            JsonKafkaProducer.getInstance().sendToKafka(bufData, topicName);
+
+                        }
+                    }
+//                    else {
+//                        JsonKafkaProducer.getInstance().sendToKafka(bufData, null);
+//                    }
                     break;
                 }
 
