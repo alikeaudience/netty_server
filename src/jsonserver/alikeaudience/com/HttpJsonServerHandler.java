@@ -1,6 +1,8 @@
 package jsonserver.alikeaudience.com;
 
 
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -9,7 +11,10 @@ import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
 import io.netty.util.ReferenceCountUtil;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -19,6 +24,7 @@ import static io.netty.handler.codec.http.HttpResponseStatus.CONTINUE;
 import static io.netty.handler.codec.http.HttpResponseStatus.OK;
 import static io.netty.handler.codec.http.HttpVersion.HTTP_1_1;
 
+
 /**
  * Created by AlikeAudience on 22/9/2016.
  */
@@ -26,7 +32,7 @@ public class HttpJsonServerHandler extends ChannelInboundHandlerAdapter {
     private static final byte[] CONTENT = { 'H', 'e', 'l', 'l', 'o', ' ', 'W', 'o', 'r', 'l', 'd' };
 
     private static final Set<String> VALUES = new HashSet<String>(Arrays.asList(
-            new String[] {"iap","installapps","keyasso","list", "mobiledata", "survey", "weblog", "testpipeline"}
+            new String[] {"nextbuzz","jsontest"}
     ));
 
     @Override
@@ -88,13 +94,20 @@ public class HttpJsonServerHandler extends ChannelInboundHandlerAdapter {
 //                    System.out.println(buf.toString(CharsetUtil.UTF_8));
                     //Saving data to local files
                     String bufData = buf.toString(CharsetUtil.UTF_8);
-//                    FileWriteHelper.getInstance().writeToFile(bufData);
+
                     if(uri != null) {
                         String topicName = uri.substring(1);
 //                        System.out.println(topicName);
                         if (VALUES.contains(topicName)){
 //                            System.out.println("yes");
-                            JsonKafkaProducer.getInstance().sendToKafka(bufData, topicName);
+                            JsonParser parser = new JsonParser();
+                            JsonObject o = parser.parse(bufData).getAsJsonObject();
+                            Format formatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssZ");
+                            o.addProperty("timestamp",formatter.format(new Date()));
+                            // write to Kafka
+                            JsonKafkaProducer.getInstance().sendToKafka(o.toString(), topicName);
+                            // write to localfile
+                            FileWriteHelper.getInstance().writeToFile(o.toString());
 
                         }
                     }

@@ -1,0 +1,267 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="netty_server" default="all">
+  
+  
+  <property file="netty_server.properties"/>
+  <!-- Uncomment the following property if no tests compilation is needed -->
+  <!-- 
+  <property name="skip.tests" value="true"/>
+   -->
+  
+  <!-- Compiler options -->
+  
+  <property name="compiler.debug" value="on"/>
+  <property name="compiler.generate.no.warnings" value="off"/>
+  <property name="compiler.args" value=""/>
+  <property name="compiler.max.memory" value="700m"/>
+  <patternset id="ignored.files">
+    <exclude name="**/*.hprof/**"/>
+    <exclude name="**/*.pyc/**"/>
+    <exclude name="**/*.pyo/**"/>
+    <exclude name="**/*.rbc/**"/>
+    <exclude name="**/*.yarb/**"/>
+    <exclude name="**/*~/**"/>
+    <exclude name="**/.DS_Store/**"/>
+    <exclude name="**/.git/**"/>
+    <exclude name="**/.hg/**"/>
+    <exclude name="**/.svn/**"/>
+    <exclude name="**/CVS/**"/>
+    <exclude name="**/RCS/**"/>
+    <exclude name="**/SCCS/**"/>
+    <exclude name="**/__pycache__/**"/>
+    <exclude name="**/_svn/**"/>
+    <exclude name="**/rcs/**"/>
+    <exclude name="**/vssver.scc/**"/>
+    <exclude name="**/vssver2.scc/**"/>
+  </patternset>
+  <patternset id="library.patterns">
+    <include name="*.war"/>
+    <include name="*.swc"/>
+    <include name="*.apk"/>
+    <include name="*.zip"/>
+    <include name="*.ear"/>
+    <include name="*.egg"/>
+    <include name="*.ane"/>
+    <include name="*.jar"/>
+  </patternset>
+  <patternset id="compiler.resources">
+    <exclude name="**/?*.java"/>
+    <exclude name="**/?*.form"/>
+    <exclude name="**/?*.class"/>
+    <exclude name="**/?*.groovy"/>
+    <exclude name="**/?*.scala"/>
+    <exclude name="**/?*.flex"/>
+    <exclude name="**/?*.kt"/>
+    <exclude name="**/?*.clj"/>
+    <exclude name="**/?*.aj"/>
+  </patternset>
+  
+  <!-- JDK definitions -->
+  
+  <property name="jdk.bin.1.8" value="${jdk.home.1.8}/bin"/>
+  <path id="jdk.classpath.1.8">
+    <fileset dir="${jdk.home.1.8}">
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/charsets.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/ext/cldrdata.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/ext/dnsns.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/ext/icedtea-sound.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/ext/jaccess.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/ext/localedata.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/ext/nashorn.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/ext/sunec.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/ext/sunjce_provider.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/ext/sunpkcs11.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/ext/zipfs.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/jce.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/jsse.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/management-agent.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/resources.jar"/>
+      <include name="../java-1.8.0-openjdk-amd64/jre/lib/rt.jar"/>
+    </fileset>
+  </path>
+  
+  <property name="project.jdk.home" value="${jdk.home.1.8}"/>
+  <property name="project.jdk.bin" value="${jdk.bin.1.8}"/>
+  <property name="project.jdk.classpath" value="jdk.classpath.1.8"/>
+  
+  
+  <!-- Global Libraries -->
+  
+  <path id="library.aopalliance-repackaged-2.4.0-b34.classpath">
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/aopalliance-repackaged-2.4.0-b34.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/argparse4j-0.5.0.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/connect-api-0.10.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/connect-file-0.10.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/connect-json-0.10.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/connect-runtime-0.10.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/guava-18.0.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/hk2-api-2.4.0-b34.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/hk2-locator-2.4.0-b34.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/hk2-utils-2.4.0-b34.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jackson-annotations-2.6.0.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jackson-core-2.6.3.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jackson-databind-2.6.3.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jackson-jaxrs-base-2.6.3.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jackson-jaxrs-json-provider-2.6.3.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jackson-module-jaxb-annotations-2.6.3.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/javassist-3.18.2-GA.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/javax.annotation-api-1.2.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/javax.inject-1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/javax.inject-2.4.0-b34.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/javax.servlet-api-3.1.0.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/javax.ws.rs-api-2.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jersey-client-2.22.2.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jersey-common-2.22.2.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jersey-container-servlet-2.22.2.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jersey-container-servlet-core-2.22.2.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jersey-guava-2.22.2.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jersey-media-jaxb-2.22.2.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jersey-server-2.22.2.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jetty-continuation-9.2.15.v20160210.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jetty-http-9.2.15.v20160210.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jetty-io-9.2.15.v20160210.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jetty-security-9.2.15.v20160210.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jetty-server-9.2.15.v20160210.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jetty-servlet-9.2.15.v20160210.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jetty-servlets-9.2.15.v20160210.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jetty-util-9.2.15.v20160210.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/jopt-simple-4.9.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/kafka-clients-0.10.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/kafka-log4j-appender-0.10.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/kafka-streams-0.10.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/kafka-streams-examples-0.10.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/kafka-tools-0.10.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/kafka_2.11-0.10.0.1-test.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/kafka_2.11-0.10.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/log4j-1.2.17.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/lz4-1.3.0.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/metrics-core-2.2.0.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/osgi-resource-locator-1.0.1.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/reflections-0.9.10.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/rocksdbjni-4.8.0.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/scala-library-2.11.8.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/scala-parser-combinators_2.11-1.0.4.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/slf4j-api-1.7.21.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/slf4j-log4j12-1.7.21.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/snappy-java-1.1.2.6.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/validation-api-1.1.0.Final.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/zkclient-0.8.jar"/>
+    <pathelement location="/home/kiwi/Downloads/kafka_2.11-0.10.0.1/libs/zookeeper-3.4.6.jar"/>
+  </path>
+  
+  <path id="library.netty-all-4.1.5.final.classpath">
+    <pathelement location="/home/kiwi/Downloads/netty-4.1.5.Final/jar/all-in-one/netty-all-4.1.5.Final.jar"/>
+  </path>
+  <!-- Register Custom Compiler Taskdefs -->
+  <property name="javac2.home" value="${idea.home}/lib"/>
+  <path id="javac2.classpath">
+    <pathelement location="${javac2.home}/javac2.jar"/>
+    <pathelement location="${javac2.home}/jdom.jar"/>
+    <pathelement location="${javac2.home}/asm-all.jar"/>
+    <pathelement location="${javac2.home}/jgoodies-forms.jar"/>
+  </path>
+  <target name="register.custom.compilers">
+    <taskdef name="javac2" classname="com.intellij.ant.Javac2" classpathref="javac2.classpath"/>
+    <taskdef name="instrumentIdeaExtensions" classname="com.intellij.ant.InstrumentIdeaExtensions" classpathref="javac2.classpath"/>
+  </target>
+  
+  <!-- Modules -->
+  
+  
+  <!-- Module netty_server -->
+  
+  <dirname property="module.netty_server.basedir" file="${ant.file}"/>
+  
+  
+  <property name="module.jdk.home.netty_server" value="${project.jdk.home}"/>
+  <property name="module.jdk.bin.netty_server" value="${project.jdk.bin}"/>
+  <property name="module.jdk.classpath.netty_server" value="${project.jdk.classpath}"/>
+  
+  <property name="compiler.args.netty_server" value="-encoding UTF-8 -source 8 -target 8 ${compiler.args}"/>
+  
+  <property name="netty_server.output.dir" value="${module.netty_server.basedir}/out/production/netty_server"/>
+  <property name="netty_server.testoutput.dir" value="${module.netty_server.basedir}/out/test/netty_server"/>
+  
+  <path id="netty_server.module.bootclasspath">
+    <!-- Paths to be included in compilation bootclasspath -->
+  </path>
+  
+  <path id="netty_server.module.production.classpath">
+    <path refid="${module.jdk.classpath.netty_server}"/>
+    <path refid="library.netty-all-4.1.5.final.classpath"/>
+    <path refid="library.aopalliance-repackaged-2.4.0-b34.classpath"/>
+  </path>
+  
+  <path id="netty_server.runtime.production.module.classpath">
+    <pathelement location="${netty_server.output.dir}"/>
+    <path refid="library.netty-all-4.1.5.final.classpath"/>
+    <path refid="library.aopalliance-repackaged-2.4.0-b34.classpath"/>
+  </path>
+  
+  <path id="netty_server.module.classpath">
+    <path refid="${module.jdk.classpath.netty_server}"/>
+    <pathelement location="${netty_server.output.dir}"/>
+    <path refid="library.netty-all-4.1.5.final.classpath"/>
+    <path refid="library.aopalliance-repackaged-2.4.0-b34.classpath"/>
+  </path>
+  
+  <path id="netty_server.runtime.module.classpath">
+    <pathelement location="${netty_server.testoutput.dir}"/>
+    <pathelement location="${netty_server.output.dir}"/>
+    <path refid="library.netty-all-4.1.5.final.classpath"/>
+    <path refid="library.aopalliance-repackaged-2.4.0-b34.classpath"/>
+  </path>
+  
+  
+  <patternset id="excluded.from.module.netty_server">
+    <patternset refid="ignored.files"/>
+  </patternset>
+  
+  <patternset id="excluded.from.compilation.netty_server">
+    <patternset refid="excluded.from.module.netty_server"/>
+  </patternset>
+  
+  <path id="netty_server.module.sourcepath">
+    <dirset dir="${module.netty_server.basedir}">
+      <include name="src"/>
+    </dirset>
+  </path>
+  
+  
+  <target name="compile.module.netty_server" depends="compile.module.netty_server.production,compile.module.netty_server.tests" description="Compile module netty_server"/>
+  
+  <target name="compile.module.netty_server.production" depends="register.custom.compilers" description="Compile module netty_server; production classes">
+    <mkdir dir="${netty_server.output.dir}"/>
+    <javac2 destdir="${netty_server.output.dir}" debug="${compiler.debug}" nowarn="${compiler.generate.no.warnings}" memorymaximumsize="${compiler.max.memory}" fork="true" executable="${module.jdk.bin.netty_server}/javac">
+      <compilerarg line="${compiler.args.netty_server}"/>
+      <bootclasspath refid="netty_server.module.bootclasspath"/>
+      <classpath refid="netty_server.module.production.classpath"/>
+      <src refid="netty_server.module.sourcepath"/>
+      <patternset refid="excluded.from.compilation.netty_server"/>
+    </javac2>
+    
+    <copy todir="${netty_server.output.dir}">
+      <fileset dir="${module.netty_server.basedir}/src">
+        <patternset refid="compiler.resources"/>
+        <type type="file"/>
+      </fileset>
+    </copy>
+  </target>
+  
+  <target name="compile.module.netty_server.tests" depends="register.custom.compilers,compile.module.netty_server.production" description="compile module netty_server; test classes" unless="skip.tests"/>
+  
+  <target name="clean.module.netty_server" description="cleanup module">
+    <delete dir="${netty_server.output.dir}"/>
+    <delete dir="${netty_server.testoutput.dir}"/>
+  </target>
+  
+  <target name="init" description="Build initialization">
+    <!-- Perform any build initialization in this target -->
+  </target>
+  
+  <target name="clean" depends="clean.module.netty_server" description="cleanup all"/>
+  
+  <target name="build.modules" depends="init, clean, compile.module.netty_server" description="build all modules"/>
+  
+  <target name="all" depends="build.modules" description="build all"/>
+</project>

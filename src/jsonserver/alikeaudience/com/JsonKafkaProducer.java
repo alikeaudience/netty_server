@@ -33,7 +33,7 @@ public final class JsonKafkaProducer {
 
 
         } else {
-            props.put("bootstrap.servers", "192.168.1.23:9092"); //the addresses of the kafka brokers
+            props.put("bootstrap.servers", "ec2-54-169-0-31.ap-southeast-1.compute.amazonaws.com:9092"); //the addresses of the kafka brokers
             props.put("acks", "all");
             props.put("retries", 0);
             props.put("batch.size", 16384);
@@ -77,8 +77,8 @@ public final class JsonKafkaProducer {
 
     public void sendToKafka(String jsonData, String topic) {
         ProducerRecord<String, String> record;
-        if (topic == null)  record = new ProducerRecord<>(topicName, topicKey, jsonData);
-        else record = new ProducerRecord<>(topic, topicKey, jsonData);
+        if (topic == null)  record = new ProducerRecord<>(topicName, jsonData);
+        else record = new ProducerRecord<>(topic, jsonData);
 
         producer.send(record,
                 new Callback() {
